@@ -6,7 +6,7 @@
 >
 > A nondeterministic finite automaton (NFA), or nondeterministic finite-state machine, does not need to obey these restrictions. In particular, every DFA is also an NFA.
 
-- [Wikipedia](https://en.wikipedia.org/wiki/Nondeterministic_finite_automaton)
+\- [Wikipedia](https://en.wikipedia.org/wiki/Nondeterministic_finite_automaton)
 
 A simple NFA implementation written in Go.
 
