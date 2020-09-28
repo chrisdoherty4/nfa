@@ -1,6 +1,8 @@
 # NFA: Non-deterministic Finite Automaton / Non-deterministic Finite-state Machine
 
-> In automata theory, a finite-state machine is called a deterministic finite automaton (DFA), if each of its transitions is uniquely determined by its source state and input symbol, and reading an input symbol is required for each state transition.
+> In automata theory, a finite-state machine is called a deterministic finite automaton (DFA), if
+>   - each of its transitions is uniquely determined by its source state and input symbol,
+>   - and reading an input symbol is required for each state transition.
 >
 > A nondeterministic finite automaton (NFA), or nondeterministic finite-state machine, does not need to obey these restrictions. In particular, every DFA is also an NFA.
 
