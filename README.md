@@ -10,9 +10,7 @@
 
 A simple NFA implementation written in Go.
 
-# Usage
-
-## Example
+## Usage
 
 ```go
 import "github.com/chrisdoherty4/nfa"
