@@ -16,15 +16,15 @@ A simple NFA implementation written in Go.
 import "github.com/chrisdoherty4/nfa"
 
 var (
-    PendingState = nfa.State("Pending")
-    RunningState = nfa.State("Running")
-    CompleteState = nfa.State("Complete")
-    ErrorState = nfa.State("Error")
+    PendingState  nfa.State = "Pending"
+    RunningState  nfa.State = "Running"
+    CompleteState nfa.State = "Complete"
+    ErrorState    nfa.State = "Error"
 )
 
 var (
-    StartEvent = nfa.Event("Start")
-    FinishEvent = nfa.Event("Finish")
+    StartEvent  nfa.Event = "Start"
+    FinishEvent nfa.Event = "Finish"
 )
 
 func main() {
