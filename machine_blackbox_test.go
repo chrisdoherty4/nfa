@@ -124,7 +124,7 @@ func TestMachine(t *testing.T) {
 		assert.NotNil(t, err, err)
 	})
 
-	t.Run("GraphFSM", func(t *testing.T) {
+	t.Run("GraphNFA", func(t *testing.T) {
 		const (
 			S1 State = "S1"
 			S2 State = "S2"
