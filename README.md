@@ -12,9 +12,7 @@ A simple NFA implementation written in Go.
 
 # Usage
 
-## Deterministic Finite-state Machine Example
-
-> Every DFA is also an NFA
+## Example
 
 ```go
 import "github.com/chrisdoherty4/nfa"
@@ -23,6 +21,7 @@ var (
     PendingState = nfa.State("Pending")
     RunningState = nfa.State("Running")
     CompleteState = nfa.State("Complete")
+    ErrorState = nfa.State("Error")
 )
 
 var (
@@ -31,53 +30,29 @@ var (
 )
 
 func main() {
-    machine := nfa.NewMachine(PendingState)
+    machine := nfa.NewMachine(
+        PendingState,
+        nfa.Transitions{
+            PendingState: nfa.Events{
+                StartEvent: nfa.NewTransitionD(RunningState),
+            },
 
-    machine.TransitionD(PendingState, StartEvent, RunningState)
-    machine.TransitionD(RunningState, FinishEvent, CompleteState)
+            RunningState: nfa.Events{
+                RunningState: nfa.NewTransition(func(result bool) {
+                    if result {
+                        return CompleteState
+                    }
+
+                    return ErrorState
+                }),
+            },
+        },
+    )
 
     machine.Event(StartEvent)
     fmt.Println(machine.State()) // Running
 
-    machine.Event(FinishEvent)
+    machine.Event(FinishEvent, true)
     fmt.Println(machine.State()) // Complete
-}
-```
-
-## Non-deterministic Finite-state Machine Example
-
-
-```go
-import "github.com/chrisdoherty4/nfa"
-
-var (
-    PendingState = nfa.State("Pending")
-    RunningState = nfa.State("Running")
-    SuccessState = nfa.State("Complete")
-    ErrorState = nfa.State("Error")
-)
-
-var (
-    StartEvent = nfa.Event("Start")
-    CompleteEvent = nfa.Event("Complete")
-)
-
-func main() {
-    machine := nfa.NewMachine(PendingState)
-
-    machine.TransitionD(PendingState, StartEvent, RunningState)
-    machine.Transition(RunningState, FinishEvent, func(result bool) State {
-        if result {
-            return SuccessState
-        }
-
-        return ErrorState
-    })
-
-    machine.Event(StartEvent)
-    fmt.Println(machine.State()) // Running
-
-    machine.Event(CompleteEvent, false)
-    fmt.Println(machine.State()) // Error
 }
 ```
