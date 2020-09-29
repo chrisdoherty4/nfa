@@ -3,6 +3,7 @@ package nfa_test
 import (
 	"testing"
 
+	"github.com/chrisdoherty4/nfa"
 	. "github.com/chrisdoherty4/nfa"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -124,45 +125,49 @@ func TestMachine(t *testing.T) {
 		assert.NotNil(t, err, err)
 	})
 
-	// t.Run("MachineStartingState", func(t *testing.T) {
-	// 	state := State("Starting")
-	// 	machine := NewMachine(state)
+	t.Run("GraphFSM", func(t *testing.T) {
+		var (
+			S1 nfa.State = "S1"
+			S2 nfa.State = "S2"
+			S3 nfa.State = "S3"
+			E1 nfa.Event = "E1"
+		)
 
-	// 	assert.Equal(t, state, machine.State())
-	// })
+		machine := NewMachine(
+			S1,
+			Transitions{
+				S1: Events{
+					E1: NewTransition(func(result bool) State {
+						if result {
+							return S2
+						}
 
-	// t.Run("DeterministicTransition", func(t *testing.T) {
-	// 	startState := State("Starting")
-	// 	finalState := State("Final")
-	// 	event := Event("finalize")
+						return S3
+					}),
+				},
 
-	// 	machine := NewMachine(startState)
+				S2: Events{
+					E1: NewTransitionD(S1),
+				},
 
-	// 	err := machine.TransitionD(startState, event, finalState)
-	// 	assert.Nil(t, err, err)
+				S3: Events{
+					E1: NewTransitionD(S1),
+				},
+			},
+		)
 
-	// 	err = machine.Event(event)
-	// 	assert.Nil(t, err, err)
+		assert.Equal(t, S1, machine.State())
 
-	// 	assert.Equal(t, finalState, machine.State())
-	// })
+		machine.Transition(E1, true)
+		assert.Equal(t, S2, machine.State())
 
-	// t.Run("NonDeterministicTransition", func(t *testing.T) {
-	// 	startState := State("Starting")
-	// 	finalState := State("Final")
-	// 	event := Event("finalize")
+		machine.Transition(E1)
+		assert.Equal(t, S1, machine.State())
 
-	// 	machine := NewMachine(startState)
+		machine.Transition(E1, false)
+		assert.Equal(t, S3, machine.State())
 
-	// 	err := machine.Transition(startState, event, func() State {
-	// 		return finalState
-	// 	})
-
-	// 	assert.Nil(t, err, err)
-
-	// 	err = machine.Event(event)
-	// 	assert.Nil(t, err, err)
-
-	// 	assert.Equal(t, finalState, machine.State())
-	// })
+		machine.Transition(E1)
+		assert.Equal(t, S1, machine.State())
+	})
 }

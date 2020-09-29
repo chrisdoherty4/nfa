@@ -125,18 +125,18 @@ func executeDecision(d Decision, params ...interface{}) (State, error) {
 	args := make([]reflect.Value, decisionType.NumIn())
 
 	for i := 0; i < decisionType.NumIn(); i++ {
-		kind := reflect.TypeOf(decisionType.In(i)).Kind()
+		expectedKind := decisionType.In(i).Kind()
 		paramValue := reflect.ValueOf(params[i])
 
 		// Ensure the parameter kind is the same. For types that may be nil
-		// such as pointers or channels we do not check the underlying type
+		// such as pointers or channels we do not check the base type
 		// used because there could be slices of slices and we wouldn't know
 		// where to stop.
-		if kind != paramValue.Kind() {
-			return "", fmt.Errorf("Expected %v for param %v", kind, i)
+		if expectedKind != paramValue.Kind() {
+			return "", fmt.Errorf("Expected '%v' for param %v", expectedKind, i)
 		}
 
-		args = append(args, paramValue)
+		args[i] = paramValue
 	}
 
 	result := decisionValue.Call((args))
