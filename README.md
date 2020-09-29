@@ -15,14 +15,14 @@ A simple NFA implementation written in Go.
 ```go
 import "github.com/chrisdoherty4/nfa"
 
-var (
+const (
     PendingState  nfa.State = "Pending"
     RunningState  nfa.State = "Running"
     CompleteState nfa.State = "Complete"
     ErrorState    nfa.State = "Error"
 )
 
-var (
+const (
     StartEvent  nfa.Event = "Start"
     FinishEvent nfa.Event = "Finish"
 )
