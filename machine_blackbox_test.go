@@ -3,7 +3,6 @@ package nfa_test
 import (
 	"testing"
 
-	"github.com/chrisdoherty4/nfa"
 	. "github.com/chrisdoherty4/nfa"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -126,11 +125,11 @@ func TestMachine(t *testing.T) {
 	})
 
 	t.Run("GraphFSM", func(t *testing.T) {
-		var (
-			S1 nfa.State = "S1"
-			S2 nfa.State = "S2"
-			S3 nfa.State = "S3"
-			E1 nfa.Event = "E1"
+		const (
+			S1 State = "S1"
+			S2 State = "S2"
+			S3 State = "S3"
+			E1 Event = "E1"
 		)
 
 		machine := NewMachine(
