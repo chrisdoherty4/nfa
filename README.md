@@ -47,10 +47,10 @@ func main() {
         },
     )
 
-    machine.Event(StartEvent)
+    machine.Transition(StartEvent)
     fmt.Println(machine.State()) // Running
 
-    machine.Event(FinishEvent, true)
+    machine.Transition(FinishEvent, true)
     fmt.Println(machine.State()) // Complete
 }
 ```
