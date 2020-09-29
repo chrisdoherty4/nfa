@@ -169,4 +169,28 @@ func TestMachine(t *testing.T) {
 		machine.Transition(E1)
 		assert.Equal(t, S1, machine.State())
 	})
+
+	t.Run("EndState", func(t *testing.T) {
+		machine := NewMachine(
+			Complete,
+			Transitions{},
+		)
+
+		err := machine.Transition(Start)
+		assert.NotNil(t, err, err)
+	})
+
+	t.Run("UnhandlableEvent", func(t *testing.T) {
+		machine := NewMachine(
+			Pending,
+			Transitions{
+				Pending: Events{
+					Start: NewTransitionD(Running),
+				},
+			},
+		)
+
+		err := machine.Transition(Finish)
+		assert.NotNil(t, err, err)
+	})
 }
