@@ -36,7 +36,7 @@ func main() {
             },
 
             RunningState: nfa.Events{
-                RunningState: nfa.NewTransition(func(result bool) {
+                FinishEvent: nfa.NewTransition(func(result bool) {
                     if result {
                         return CompleteState
                     }
